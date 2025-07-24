@@ -301,7 +301,7 @@ class CassowaryTests: XCTestCase {
         class Constrainable {
             let top = Variable("top")
             let height = Variable("height")
-            var bottom: Expression {
+            var bottom: Cassowary.Expression {
                 return top + height
             }
         }
