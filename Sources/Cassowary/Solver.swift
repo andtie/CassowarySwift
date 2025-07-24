@@ -509,13 +509,14 @@ public final class Solver {
      until the objective function reaches a minimum.
      */
     private func optimize(objective: Row) throws {
+        var iterations = 0
         while true {
             let entering = Solver.getEnteringSymbol(objective)
             if entering.symbolType == .invalid {
                 return
             }
 
-            guard let entry = getLeavingRow(entering) else {
+            guard let entry = getLeavingRow(entering), iterations < 100 else {
                 throw CassowaryError.internalSolver("The objective is unbounded.")
             }
 
@@ -539,6 +540,8 @@ public final class Solver {
             entry.solveFor(leaving!, entering)
             substitute(symbol: entering, row: entry)
             rows[entering] = entry
+
+            iterations += 1
         }
     }
 
